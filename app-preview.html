@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overtime Tracker - Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'SF Pro Display', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a1a1a;
+            padding: 20px;
+        }
+
+        .device-frame {
+            width: 390px;
+            height: 844px;
+            background: #000;
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 100;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                rgb(242, 247, 255) 0%,
+                rgb(250, 242, 255) 50%,
+                rgb(242, 250, 253) 100%);
+            border-radius: 40px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .screen::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .content {
+            padding: 50px 20px 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header-icon {
+            font-size: 28px;
+            background: linear-gradient(135deg, #007AFF, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .week-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding: 0 20px;
+        }
+
+        .week-nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            color: #007AFF;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        .week-nav-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .week-info {
+            text-align: center;
+            flex: 1;
+        }
+
+        .week-range {
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .current-week-btn {
+            font-size: 12px;
+            font-weight: 500;
+            color: #007AFF;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .weekly-total-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 24px;
+            padding: 24px;
+            margin: 0 20px 24px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .weekly-total-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .weekly-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
+        }
+
+        .weekly-period {
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(102, 102, 102, 0.8);
+        }
+
+        .weekly-amount {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #007AFF, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .weekly-unit {
+            font-size: 20px;
+            font-weight: 600;
+            color: #666;
+            margin-left: 4px;
+        }
+
+        .weekly-breakdown {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .breakdown-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .breakdown-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .breakdown-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .dot-before {
+            background: rgba(0, 122, 255, 0.3);
+        }
+
+        .dot-after {
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        .day-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 20px;
+            margin: 0 20px 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+        }
+
+        .day-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .day-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: #666;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .day-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #000;
+        }
+
+        .day-total {
+            text-align: right;
+        }
+
+        .day-total-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #666;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .day-total-amount {
+            font-size: 20px;
+            font-weight: 800;
+            color: #007AFF;
+        }
+
+        .day-total-amount.zero {
+            color: #666;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .day-inputs {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: rgba(118, 118, 128, 0.12);
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: rgba(0, 122, 255, 0.5);
+        }
+
+        .time-input {
+            flex: 1;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            color: #000;
+        }
+
+        .time-input::placeholder {
+            color: #999;
+        }
+
+        .input-unit {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .spacer {
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="device-frame">
+        <div class="notch"></div>
+        <div class="screen">
+            <div class="content">
+                <!-- Header -->
+                <div class="header">
+                    <div class="header-icon">🕐</div>
+                    <div class="header-title">Overtime Tracker</div>
+                    <div class="header-subtitle">Track your postal delivery hours</div>
+                </div>
+
+                <!-- Week Selector -->
+                <div class="week-selector">
+                    <button class="week-nav-btn">‹</button>
+                    <div class="week-info">
+                        <div class="week-range">Dec 30 - Jan 5</div>
+                        <button class="current-week-btn">Current Week</button>
+                    </div>
+                    <button class="week-nav-btn">›</button>
+                </div>
+
+                <!-- Weekly Total Card -->
+                <div class="weekly-total-card">
+                    <div class="weekly-total-header">
+                        <div>
+                            <div class="weekly-label">WEEKLY TOTAL</div>
+                            <div class="weekly-period">Monday - Sunday</div>
+                        </div>
+                        <div>
+                            <span class="weekly-amount">15.50</span>
+                            <span class="weekly-unit">hrs</span>
+                        </div>
+                    </div>
+                    <div class="weekly-breakdown">
+                        <div class="breakdown-item">
+                            <div class="breakdown-dot dot-before"></div>
+                            <div>Before: 6.25 hrs</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-dot dot-after"></div>
+                            <div>After: 9.25 hrs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day Cards -->
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">MON</div>
+                            <div class="day-number">30</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount">2.50</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.25" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.25" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">TUE</div>
+                            <div class="day-number">31</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount">3.00</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.50" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.50" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">WED</div>
+                            <div class="day-number">1</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount">4.00</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="2.00" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="2.00" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">THU</div>
+                            <div class="day-number">2</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount">2.00</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.00" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.00" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">FRI</div>
+                            <div class="day-number">3</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount">2.50</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="0.75" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.75" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">SAT</div>
+                            <div class="day-number">4</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount">1.50</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="0.50" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" value="1.00" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-card">
+                    <div class="day-header">
+                        <div class="day-info">
+                            <div class="day-name">SUN</div>
+                            <div class="day-number">5</div>
+                        </div>
+                        <div class="day-total">
+                            <div class="day-total-label">TOTAL</div>
+                            <div class="day-total-amount zero">0.00</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="day-inputs">
+                        <div class="input-group">
+                            <div class="input-label">Before</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-label">After</div>
+                            <div class="input-wrapper">
+                                <input type="text" class="time-input" placeholder="0.00">
+                                <span class="input-unit">hrs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spacer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add simple interactivity
+        document.querySelectorAll('.time-input').forEach(input => {
+            input.addEventListener('input', function() {
+                // In the real app, this would update totals
+                console.log('Input changed:', this.value);
+            });
+        });
+    </script>
+</body>
+</html>
