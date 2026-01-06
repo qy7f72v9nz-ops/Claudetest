@@ -15,6 +15,9 @@
 		OT011 /* OvertimeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = OT012 /* OvertimeViewModel.swift */; };
 		OT013 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = OT014 /* Assets.xcassets */; };
 		OT015 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = OT016 /* Preview Assets.xcassets */; };
+		OT037 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = OT038 /* WeatherData.swift */; };
+		OT039 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OT040 /* WeatherService.swift */; };
+		OT041 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OT042 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		OT014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		OT016 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		OT018 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		OT038 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		OT040 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		OT042 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 				OT023 /* Models */,
 				OT024 /* Views */,
 				OT025 /* ViewModels */,
+				OT043 /* Services */,
 				OT014 /* Assets.xcassets */,
 				OT018 /* Info.plist */,
 				OT026 /* Preview Content */,
@@ -76,6 +83,7 @@
 			children = (
 				OT008 /* OvertimeEntry.swift */,
 				OT010 /* WeekData.swift */,
+				OT038 /* WeatherData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -103,6 +111,15 @@
 				OT016 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		OT043 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				OT040 /* WeatherService.swift */,
+				OT042 /* LocationManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +198,9 @@
 				OT009 /* WeekData.swift in Sources */,
 				OT011 /* OvertimeViewModel.swift in Sources */,
 				OT001 /* OvertimeTrackerApp.swift in Sources */,
+				OT037 /* WeatherData.swift in Sources */,
+				OT039 /* WeatherService.swift in Sources */,
+				OT041 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
