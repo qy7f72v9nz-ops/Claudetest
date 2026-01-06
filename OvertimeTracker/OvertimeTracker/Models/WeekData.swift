@@ -11,8 +11,20 @@ struct WeekData: Codable {
     var entries: [OvertimeEntry]
     let weekStartDate: Date
 
-    var weeklyTotal: Double {
-        entries.reduce(0) { $0 + $1.totalDaily }
+    var weeklyTotalMinutes: Int {
+        entries.reduce(0) { $0 + $1.totalMinutes }
+    }
+
+    var weeklyTotalFormatted: String {
+        formatMinutes(weeklyTotalMinutes)
+    }
+
+    var totalMinutesBefore: Int {
+        entries.reduce(0) { $0 + $1.minutesBefore }
+    }
+
+    var totalMinutesAfter: Int {
+        entries.reduce(0) { $0 + $1.minutesAfter }
     }
 
     var weekRange: String {
@@ -26,6 +38,22 @@ struct WeekData: Codable {
         let endFormatted = formatter.string(from: weekEnd)
 
         return "\(startMonth) - \(endFormatted)"
+    }
+
+    private func formatMinutes(_ minutes: Int) -> String {
+        if minutes == 0 {
+            return "0m"
+        }
+        let hours = minutes / 60
+        let mins = minutes % 60
+
+        if hours == 0 {
+            return "\(mins)m"
+        } else if mins == 0 {
+            return "\(hours)h"
+        } else {
+            return "\(hours)h \(mins)m"
+        }
     }
 
     init(startDate: Date) {

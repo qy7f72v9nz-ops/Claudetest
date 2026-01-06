@@ -136,31 +136,25 @@ struct ContentView: View {
 
                 Spacer()
 
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(String(format: "%.2f", viewModel.currentWeek.weeklyTotal))
-                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: viewModel.currentWeek.weeklyTotal > 0 ? [.blue, .cyan] : [.gray, .gray],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                Text(viewModel.currentWeek.weeklyTotalFormatted)
+                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: viewModel.currentWeek.weeklyTotalMinutes > 0 ? [.blue, .cyan] : [.gray, .gray],
+                            startPoint: .leading,
+                            endPoint: .trailing
                         )
-
-                    Text("hrs")
-                        .font(.system(.title3, design: .rounded, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                }
+                    )
             }
 
             // Visual breakdown
-            if viewModel.currentWeek.weeklyTotal > 0 {
+            if viewModel.currentWeek.weeklyTotalMinutes > 0 {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Circle()
                             .fill(Color.blue.opacity(0.3))
                             .frame(width: 8, height: 8)
-                        Text("Before: \(String(format: "%.2f", totalBefore)) hrs")
+                        Text("Before: \(formatMinutes(viewModel.currentWeek.totalMinutesBefore))")
                             .font(.system(.caption, design: .rounded, weight: .medium))
                             .foregroundStyle(.secondary)
                     }
@@ -169,7 +163,7 @@ struct ContentView: View {
                         Circle()
                             .fill(Color.cyan.opacity(0.3))
                             .frame(width: 8, height: 8)
-                        Text("After: \(String(format: "%.2f", totalAfter)) hrs")
+                        Text("After: \(formatMinutes(viewModel.currentWeek.totalMinutesAfter))")
                             .font(.system(.caption, design: .rounded, weight: .medium))
                             .foregroundStyle(.secondary)
                     }
@@ -197,12 +191,20 @@ struct ContentView: View {
         .padding(.horizontal, 20)
     }
 
-    private var totalBefore: Double {
-        viewModel.currentWeek.entries.reduce(0) { $0 + $1.overtimeBefore }
-    }
+    private func formatMinutes(_ minutes: Int) -> String {
+        if minutes == 0 {
+            return "0m"
+        }
+        let hours = minutes / 60
+        let mins = minutes % 60
 
-    private var totalAfter: Double {
-        viewModel.currentWeek.entries.reduce(0) { $0 + $1.overtimeAfter }
+        if hours == 0 {
+            return "\(mins)m"
+        } else if mins == 0 {
+            return "\(hours)h"
+        } else {
+            return "\(hours)h \(mins)m"
+        }
     }
 
     private func hideKeyboard() {

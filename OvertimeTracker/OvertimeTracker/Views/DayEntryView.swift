@@ -22,8 +22,8 @@ struct DayEntryView: View {
     init(entry: OvertimeEntry, index: Int) {
         self.entry = entry
         self.index = index
-        _beforeHours = State(initialValue: entry.overtimeBefore > 0 ? String(format: "%.2f", entry.overtimeBefore) : "")
-        _afterHours = State(initialValue: entry.overtimeAfter > 0 ? String(format: "%.2f", entry.overtimeAfter) : "")
+        _beforeHours = State(initialValue: entry.minutesBefore > 0 ? String(entry.minutesBefore) : "")
+        _afterHours = State(initialValue: entry.minutesAfter > 0 ? String(entry.minutesAfter) : "")
     }
 
     var body: some View {
@@ -51,9 +51,9 @@ struct DayEntryView: View {
                         .foregroundStyle(.secondary)
                         .tracking(0.5)
 
-                    Text(String(format: "%.2f", entry.totalDaily))
+                    Text(entry.totalFormatted)
                         .font(.system(.title3, design: .rounded, weight: .bold))
-                        .foregroundStyle(entry.totalDaily > 0 ? .blue : .secondary)
+                        .foregroundStyle(entry.totalMinutes > 0 ? .blue : .secondary)
                 }
             }
             .padding(.horizontal, 20)
@@ -71,8 +71,8 @@ struct DayEntryView: View {
                         .foregroundStyle(.secondary)
 
                     HStack {
-                        TextField("0.00", text: $beforeHours)
-                            .keyboardType(.decimalPad)
+                        TextField("0", text: $beforeHours)
+                            .keyboardType(.numberPad)
                             .font(.system(.body, design: .rounded, weight: .semibold))
                             .multilineTextAlignment(.center)
                             .foregroundStyle(Color.black)
@@ -81,7 +81,7 @@ struct DayEntryView: View {
                                 updateViewModel()
                             }
 
-                        Text("hrs")
+                        Text("min")
                             .font(.system(.caption, design: .rounded))
                             .foregroundStyle(.secondary)
                     }
@@ -104,8 +104,8 @@ struct DayEntryView: View {
                         .foregroundStyle(.secondary)
 
                     HStack {
-                        TextField("0.00", text: $afterHours)
-                            .keyboardType(.decimalPad)
+                        TextField("0", text: $afterHours)
+                            .keyboardType(.numberPad)
                             .font(.system(.body, design: .rounded, weight: .semibold))
                             .multilineTextAlignment(.center)
                             .foregroundStyle(Color.black)
@@ -114,7 +114,7 @@ struct DayEntryView: View {
                                 updateViewModel()
                             }
 
-                        Text("hrs")
+                        Text("min")
                             .font(.system(.caption, design: .rounded))
                             .foregroundStyle(.secondary)
                     }
@@ -141,8 +141,8 @@ struct DayEntryView: View {
     }
 
     private func updateViewModel() {
-        let before = Double(beforeHours) ?? 0
-        let after = Double(afterHours) ?? 0
-        viewModel.updateEntry(at: index, overtimeBefore: before, overtimeAfter: after)
+        let before = Int(beforeHours) ?? 0
+        let after = Int(afterHours) ?? 0
+        viewModel.updateEntry(at: index, minutesBefore: before, minutesAfter: after)
     }
 }

@@ -33,10 +33,10 @@ class OvertimeViewModel: ObservableObject {
         }
     }
 
-    func updateEntry(at index: Int, overtimeBefore: Double, overtimeAfter: Double) {
+    func updateEntry(at index: Int, minutesBefore: Int, minutesAfter: Int) {
         guard index >= 0 && index < currentWeek.entries.count else { return }
-        currentWeek.entries[index].overtimeBefore = overtimeBefore
-        currentWeek.entries[index].overtimeAfter = overtimeAfter
+        currentWeek.entries[index].minutesBefore = minutesBefore
+        currentWeek.entries[index].minutesAfter = minutesAfter
         saveData()
     }
 

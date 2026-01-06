@@ -10,11 +10,15 @@ import Foundation
 struct OvertimeEntry: Identifiable, Codable {
     let id: UUID
     let date: Date
-    var overtimeBefore: Double  // Hours before contracted hours
-    var overtimeAfter: Double   // Hours after contracted hours
+    var minutesBefore: Int  // Minutes before contracted hours
+    var minutesAfter: Int   // Minutes after contracted hours
 
-    var totalDaily: Double {
-        overtimeBefore + overtimeAfter
+    var totalMinutes: Int {
+        minutesBefore + minutesAfter
+    }
+
+    var totalFormatted: String {
+        formatMinutes(totalMinutes)
     }
 
     var dayName: String {
@@ -35,10 +39,26 @@ struct OvertimeEntry: Identifiable, Codable {
         return formatter.string(from: date)
     }
 
-    init(id: UUID = UUID(), date: Date, overtimeBefore: Double = 0, overtimeAfter: Double = 0) {
+    init(id: UUID = UUID(), date: Date, minutesBefore: Int = 0, minutesAfter: Int = 0) {
         self.id = id
         self.date = date
-        self.overtimeBefore = overtimeBefore
-        self.overtimeAfter = overtimeAfter
+        self.minutesBefore = minutesBefore
+        self.minutesAfter = minutesAfter
+    }
+
+    private func formatMinutes(_ minutes: Int) -> String {
+        if minutes == 0 {
+            return "0m"
+        }
+        let hours = minutes / 60
+        let mins = minutes % 60
+
+        if hours == 0 {
+            return "\(mins)m"
+        } else if mins == 0 {
+            return "\(hours)h"
+        } else {
+            return "\(hours)h \(mins)m"
+        }
     }
 }
