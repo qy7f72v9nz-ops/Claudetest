@@ -7,12 +7,16 @@
 
 import Foundation
 import Combine
+import CoreLocation
 
 class OvertimeViewModel: ObservableObject {
     @Published var currentWeek: WeekData
 
     private let userDefaults = UserDefaults.standard
     private let weekDataKey = "currentWeekData"
+    private let weatherService = WeatherService()
+    private let locationManager = LocationManager()
+    private var cancellables = Set<AnyCancellable>()
 
     init() {
         // Try to load saved data, otherwise create new week
@@ -30,6 +34,43 @@ class OvertimeViewModel: ObservableObject {
             }
         } else {
             self.currentWeek = WeekData(startDate: WeekData.getCurrentWeekStartDate())
+        }
+
+        // Request location and fetch weather when location is available
+        setupLocationObserver()
+        locationManager.requestLocation()
+    }
+
+    private func setupLocationObserver() {
+        locationManager.$location
+            .compactMap { $0 }
+            .sink { [weak self] location in
+                Task { @MainActor in
+                    await self?.fetchWeatherForCurrentWeek(location: location)
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    @MainActor
+    private func fetchWeatherForCurrentWeek(location: CLLocationCoordinate2D) async {
+        // Only fetch weather for today (to save API calls)
+        let today = Calendar.current.startOfDay(for: Date())
+
+        for index in currentWeek.entries.indices {
+            let entryDate = Calendar.current.startOfDay(for: currentWeek.entries[index].date)
+
+            // Only fetch weather for today's entry
+            if entryDate == today && currentWeek.entries[index].weather == nil {
+                do {
+                    let weather = try await weatherService.fetchWeather(for: location)
+                    currentWeek.entries[index].weather = weather
+                    saveData()
+                } catch {
+                    print("Failed to fetch weather: \(error)")
+                }
+                break
+            }
         }
     }
 

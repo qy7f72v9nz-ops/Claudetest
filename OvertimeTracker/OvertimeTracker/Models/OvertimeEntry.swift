@@ -12,6 +12,7 @@ struct OvertimeEntry: Identifiable, Codable {
     let date: Date
     var minutesBefore: Int  // Minutes before contracted hours
     var minutesAfter: Int   // Minutes after contracted hours
+    var weather: WeatherData?  // Optional weather data
 
     var totalMinutes: Int {
         minutesBefore + minutesAfter
@@ -39,11 +40,12 @@ struct OvertimeEntry: Identifiable, Codable {
         return formatter.string(from: date)
     }
 
-    init(id: UUID = UUID(), date: Date, minutesBefore: Int = 0, minutesAfter: Int = 0) {
+    init(id: UUID = UUID(), date: Date, minutesBefore: Int = 0, minutesAfter: Int = 0, weather: WeatherData? = nil) {
         self.id = id
         self.date = date
         self.minutesBefore = minutesBefore
         self.minutesAfter = minutesAfter
+        self.weather = weather
     }
 
     private func formatMinutes(_ minutes: Int) -> String {

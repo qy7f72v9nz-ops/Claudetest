@@ -37,9 +37,23 @@ struct DayEntryView: View {
                         .textCase(.uppercase)
                         .tracking(0.5)
 
-                    Text(entry.dayNumber)
-                        .font(.system(.title2, design: .rounded, weight: .bold))
-                        .foregroundStyle(Color.black)
+                    HStack(spacing: 6) {
+                        Text(entry.dayNumber)
+                            .font(.system(.title2, design: .rounded, weight: .bold))
+                            .foregroundStyle(Color.black)
+
+                        // Weather display
+                        if let weather = entry.weather {
+                            HStack(spacing: 4) {
+                                Text(weather.emoji)
+                                    .font(.system(size: 20))
+
+                                Text(weather.temperatureFormatted)
+                                    .font(.system(.caption, design: .rounded, weight: .semibold))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
                 }
 
                 Spacer()

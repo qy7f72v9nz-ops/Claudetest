@@ -53,5 +53,7 @@
         <string>UIInterfaceOrientationLandscapeLeft</string>
         <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to show current weather conditions for your overtime tracking.</string>
 </dict>
 </plist>
