@@ -33,7 +33,16 @@ struct DayEntryView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(entry.shortDayName)
                         .font(.system(.caption, design: .rounded, weight: .bold))
-                        .foregroundStyle(Color(red: 0.9, green: 0.0, blue: 0.0))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.85, green: 0.0, blue: 0.0),
+                                    Color(red: 1.0, green: 0.25, blue: 0.25)
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .textCase(.uppercase)
                         .tracking(0.8)
 
@@ -62,12 +71,36 @@ struct DayEntryView: View {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text("TOTAL")
                         .font(.system(.caption2, design: .rounded, weight: .bold))
-                        .foregroundStyle(Color(red: 0.9, green: 0.0, blue: 0.0))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.85, green: 0.0, blue: 0.0),
+                                    Color(red: 1.0, green: 0.25, blue: 0.25)
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
                         .tracking(0.8)
 
                     Text(entry.totalFormatted)
                         .font(.system(.title3, design: .rounded, weight: .bold))
-                        .foregroundStyle(entry.totalMinutes > 0 ? Color(red: 0.9, green: 0.0, blue: 0.0) : Color.black.opacity(0.4))
+                        .foregroundStyle(
+                            entry.totalMinutes > 0 ?
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 0.85, green: 0.0, blue: 0.0),
+                                        Color(red: 1.0, green: 0.3, blue: 0.3)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ) :
+                                LinearGradient(
+                                    colors: [Color.black.opacity(0.4), Color.black.opacity(0.4)],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                        )
                 }
             }
             .padding(.horizontal, 20)
@@ -107,7 +140,23 @@ struct DayEntryView: View {
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(focusedField == .before ? Color(red: 0.9, green: 0.0, blue: 0.0).opacity(0.5) : Color.clear, lineWidth: 2)
+                            .strokeBorder(
+                                focusedField == .before ?
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.85, green: 0.0, blue: 0.0).opacity(0.6),
+                                            Color(red: 1.0, green: 0.25, blue: 0.25).opacity(0.4)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ) :
+                                    LinearGradient(
+                                        colors: [Color.clear, Color.clear],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                lineWidth: 2
+                            )
                     )
                 }
 
@@ -140,7 +189,23 @@ struct DayEntryView: View {
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(focusedField == .after ? Color(red: 0.9, green: 0.0, blue: 0.0).opacity(0.5) : Color.clear, lineWidth: 2)
+                            .strokeBorder(
+                                focusedField == .after ?
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.85, green: 0.0, blue: 0.0).opacity(0.6),
+                                            Color(red: 1.0, green: 0.25, blue: 0.25).opacity(0.4)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ) :
+                                    LinearGradient(
+                                        colors: [Color.clear, Color.clear],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                lineWidth: 2
+                            )
                     )
                 }
             }
@@ -148,16 +213,24 @@ struct DayEntryView: View {
             .padding(.vertical, 16)
         }
         .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(
-                            Color(red: 0.9, green: 0.0, blue: 0.0).opacity(0.15),
-                            lineWidth: 1
-                        )
-                )
-                .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 6)
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+
+                RoundedRectangle(cornerRadius: 20)
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.6),
+                                Color.white.opacity(0.2)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1.5
+                    )
+            }
+            .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 6)
         )
     }
 
