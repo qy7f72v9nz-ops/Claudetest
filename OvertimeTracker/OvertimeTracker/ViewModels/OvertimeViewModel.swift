@@ -54,22 +54,17 @@ class OvertimeViewModel: ObservableObject {
 
     @MainActor
     private func fetchWeatherForCurrentWeek(location: CLLocationCoordinate2D) async {
-        // Only fetch weather for today (to save API calls)
-        let today = Calendar.current.startOfDay(for: Date())
-
+        // Fetch weather for all 7 days of the week
         for index in currentWeek.entries.indices {
-            let entryDate = Calendar.current.startOfDay(for: currentWeek.entries[index].date)
-
-            // Only fetch weather for today's entry
-            if entryDate == today && currentWeek.entries[index].weather == nil {
+            // Only fetch if weather data doesn't exist yet
+            if currentWeek.entries[index].weather == nil {
                 do {
                     let weather = try await weatherService.fetchWeather(for: location)
                     currentWeek.entries[index].weather = weather
                     saveData()
                 } catch {
-                    print("Failed to fetch weather: \(error)")
+                    print("Failed to fetch weather for day \(index + 1): \(error)")
                 }
-                break
             }
         }
     }

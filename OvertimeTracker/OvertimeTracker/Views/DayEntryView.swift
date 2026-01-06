@@ -32,10 +32,10 @@ struct DayEntryView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(entry.shortDayName)
-                        .font(.system(.caption, design: .rounded, weight: .semibold))
-                        .foregroundStyle(.secondary)
+                        .font(.system(.caption, design: .rounded, weight: .bold))
+                        .foregroundStyle(Color(red: 0.9, green: 0.0, blue: 0.0))
                         .textCase(.uppercase)
-                        .tracking(0.5)
+                        .tracking(0.8)
 
                     HStack(spacing: 6) {
                         Text(entry.dayNumber)
@@ -50,7 +50,7 @@ struct DayEntryView: View {
 
                                 Text(weather.temperatureFormatted)
                                     .font(.system(.body, design: .rounded, weight: .bold))
-                                    .foregroundStyle(weather.accentColor)
+                                    .foregroundStyle(Color.black)
                             }
                         }
                     }
@@ -61,13 +61,13 @@ struct DayEntryView: View {
                 // Daily total
                 VStack(alignment: .trailing, spacing: 2) {
                     Text("TOTAL")
-                        .font(.system(.caption2, design: .rounded, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                        .tracking(0.5)
+                        .font(.system(.caption2, design: .rounded, weight: .bold))
+                        .foregroundStyle(Color(red: 0.9, green: 0.0, blue: 0.0))
+                        .tracking(0.8)
 
                     Text(entry.totalFormatted)
                         .font(.system(.title3, design: .rounded, weight: .bold))
-                        .foregroundStyle(entry.totalMinutes > 0 ? .blue : .secondary)
+                        .foregroundStyle(entry.totalMinutes > 0 ? Color(red: 0.9, green: 0.0, blue: 0.0) : Color.black.opacity(0.4))
                 }
             }
             .padding(.horizontal, 20)
@@ -82,7 +82,7 @@ struct DayEntryView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Before")
                         .font(.system(.caption, design: .rounded, weight: .medium))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.black.opacity(0.6))
 
                     HStack {
                         TextField("0", text: $beforeHours)
@@ -97,7 +97,7 @@ struct DayEntryView: View {
 
                         Text("min")
                             .font(.system(.caption, design: .rounded))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.black.opacity(0.6))
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 10)
@@ -107,7 +107,7 @@ struct DayEntryView: View {
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(focusedField == .before ? Color.blue.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .strokeBorder(focusedField == .before ? Color(red: 0.9, green: 0.0, blue: 0.0).opacity(0.5) : Color.clear, lineWidth: 2)
                     )
                 }
 
@@ -115,7 +115,7 @@ struct DayEntryView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("After")
                         .font(.system(.caption, design: .rounded, weight: .medium))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.black.opacity(0.6))
 
                     HStack {
                         TextField("0", text: $afterHours)
@@ -130,7 +130,7 @@ struct DayEntryView: View {
 
                         Text("min")
                             .font(.system(.caption, design: .rounded))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.black.opacity(0.6))
                     }
                     .padding(.horizontal, 12)
                     .padding(.vertical, 10)
@@ -140,7 +140,7 @@ struct DayEntryView: View {
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(focusedField == .after ? Color.blue.opacity(0.5) : Color.clear, lineWidth: 2)
+                            .strokeBorder(focusedField == .after ? Color(red: 0.9, green: 0.0, blue: 0.0).opacity(0.5) : Color.clear, lineWidth: 2)
                     )
                 }
             }
@@ -148,30 +148,16 @@ struct DayEntryView: View {
             .padding(.vertical, 16)
         }
         .background(
-            ZStack {
-                // Weather-based gradient background
-                if let weather = entry.weather {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(
-                            LinearGradient(
-                                colors: weather.gradientColors,
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
+                        .strokeBorder(
+                            Color(red: 0.9, green: 0.0, blue: 0.0).opacity(0.15),
+                            lineWidth: 1
                         )
-                        .opacity(0.3)
-                } else {
-                    // Default glassmorphic background when no weather
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(.ultraThinMaterial)
-                }
-
-                // Glass overlay for depth
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial)
-                    .opacity(0.5)
-            }
-            .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 6)
+                )
+                .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 6)
         )
     }
 
