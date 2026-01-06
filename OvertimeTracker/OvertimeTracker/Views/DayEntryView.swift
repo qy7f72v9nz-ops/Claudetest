@@ -44,13 +44,13 @@ struct DayEntryView: View {
 
                         // Weather display
                         if let weather = entry.weather {
-                            HStack(spacing: 4) {
+                            HStack(spacing: 6) {
                                 Text(weather.emoji)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 35))
 
                                 Text(weather.temperatureFormatted)
-                                    .font(.system(.caption, design: .rounded, weight: .semibold))
-                                    .foregroundStyle(.secondary)
+                                    .font(.system(.body, design: .rounded, weight: .bold))
+                                    .foregroundStyle(weather.accentColor)
                             }
                         }
                     }
@@ -148,9 +148,30 @@ struct DayEntryView: View {
             .padding(.vertical, 16)
         }
         .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.ultraThinMaterial)
-                .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 5)
+            ZStack {
+                // Weather-based gradient background
+                if let weather = entry.weather {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(
+                            LinearGradient(
+                                colors: weather.gradientColors,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .opacity(0.3)
+                } else {
+                    // Default glassmorphic background when no weather
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(.ultraThinMaterial)
+                }
+
+                // Glass overlay for depth
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.5)
+            }
+            .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 6)
         )
     }
 
