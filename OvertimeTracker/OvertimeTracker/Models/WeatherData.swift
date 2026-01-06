@@ -9,7 +9,7 @@ import Foundation
 
 struct WeatherData: Codable, Equatable {
     let condition: String       // e.g., "Clear", "Rain", "Snow"
-    let temperature: Double     // in Fahrenheit
+    let temperature: Double     // in Celsius
     let conditionId: Int        // OpenWeatherMap condition code
 
     var emoji: String {
@@ -38,7 +38,7 @@ struct WeatherData: Codable, Equatable {
     }
 
     var temperatureFormatted: String {
-        return "\(Int(temperature.rounded()))°F"
+        return "\(Int(temperature.rounded()))°C"
     }
 }
 

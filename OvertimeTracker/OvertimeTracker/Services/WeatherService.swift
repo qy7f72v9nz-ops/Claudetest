@@ -19,7 +19,7 @@ class WeatherService {
             URLQueryItem(name: "lat", value: "\(location.latitude)"),
             URLQueryItem(name: "lon", value: "\(location.longitude)"),
             URLQueryItem(name: "appid", value: apiKey),
-            URLQueryItem(name: "units", value: "imperial")  // Fahrenheit
+            URLQueryItem(name: "units", value: "metric")  // Celsius
         ]
 
         guard let url = components?.url else {
