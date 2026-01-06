@@ -15,9 +15,9 @@ struct ContentView: View {
             // Gradient background - Liquid Glass aesthetic
             LinearGradient(
                 colors: [
-                    Color(red: 0.95, green: 0.97, blue: 1.0),
-                    Color(red: 0.98, green: 0.95, blue: 1.0),
-                    Color(red: 0.95, green: 0.98, blue: 0.99)
+                    Color(red: 0.85, green: 0.92, blue: 1.0),
+                    Color(red: 0.92, green: 0.88, blue: 1.0),
+                    Color(red: 0.88, green: 0.95, blue: 0.98)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -68,7 +68,7 @@ struct ContentView: View {
 
                 Text("Overtime Tracker")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(Color.black)
             }
 
             Text("Track your postal delivery hours")
@@ -95,7 +95,7 @@ struct ContentView: View {
             VStack(spacing: 4) {
                 Text(viewModel.currentWeek.weekRange)
                     .font(.system(.body, design: .rounded, weight: .semibold))
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(Color.black)
 
                 Button(action: { viewModel.goToCurrentWeek() }) {
                     Text("Current Week")

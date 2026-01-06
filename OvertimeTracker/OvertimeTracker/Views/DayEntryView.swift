@@ -39,7 +39,7 @@ struct DayEntryView: View {
 
                     Text(entry.dayNumber)
                         .font(.system(.title2, design: .rounded, weight: .bold))
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.black)
                 }
 
                 Spacer()
@@ -75,6 +75,7 @@ struct DayEntryView: View {
                             .keyboardType(.decimalPad)
                             .font(.system(.body, design: .rounded, weight: .semibold))
                             .multilineTextAlignment(.center)
+                            .foregroundStyle(Color.black)
                             .focused($focusedField, equals: .before)
                             .onChange(of: beforeHours) { _, newValue in
                                 updateViewModel()
@@ -107,6 +108,7 @@ struct DayEntryView: View {
                             .keyboardType(.decimalPad)
                             .font(.system(.body, design: .rounded, weight: .semibold))
                             .multilineTextAlignment(.center)
+                            .foregroundStyle(Color.black)
                             .focused($focusedField, equals: .after)
                             .onChange(of: afterHours) { _, newValue in
                                 updateViewModel()
