@@ -42,79 +42,61 @@ struct WeatherData: Codable, Equatable {
         return "\(Int(temperature.rounded()))°C"
     }
 
-    // Gradient colors for card backgrounds
+    // Gradient colors for card backgrounds - Red themed for prominence
     var gradientColors: [Color] {
         switch conditionId {
-        case 200...232:  // Thunderstorm - Dark purple to gray
+        case 200...232:  // Thunderstorm - Deep red to dark coral
             return [
-                Color(red: 0.48, green: 0.41, blue: 0.93),  // Purple
-                Color(red: 0.62, green: 0.58, blue: 0.75)   // Lighter purple-gray
+                Color(red: 0.85, green: 0.15, blue: 0.25),  // Deep red
+                Color(red: 0.95, green: 0.35, blue: 0.45)   // Dark coral
             ]
-        case 300...321, 500...531:  // Drizzle & Rain - Cool blues
+        case 300...321, 500...531:  // Drizzle & Rain - Red to rose
             return [
-                Color(red: 0.29, green: 0.56, blue: 0.89),  // Deep blue
-                Color(red: 0.53, green: 0.75, blue: 0.95)   // Light blue
+                Color(red: 0.90, green: 0.20, blue: 0.30),  // Vibrant red
+                Color(red: 1.0, green: 0.50, blue: 0.60)    // Rose pink
             ]
-        case 600...622:  // Snow - Icy white to light blue
+        case 600...622:  // Snow - Cool red to pink
             return [
-                Color(red: 0.89, green: 0.95, blue: 0.98),  // Icy white
-                Color(red: 0.71, green: 0.91, blue: 0.94)   // Soft cyan
+                Color(red: 0.95, green: 0.25, blue: 0.35),  // Bright red
+                Color(red: 1.0, green: 0.60, blue: 0.70)    // Light pink
             ]
-        case 701...781:  // Fog/Mist - Neutral grays
+        case 701...781:  // Fog/Mist - Soft red gradient
             return [
-                Color(red: 0.82, green: 0.85, blue: 0.88),  // Light gray
-                Color(red: 0.92, green: 0.93, blue: 0.95)   // Very light gray
+                Color(red: 0.90, green: 0.30, blue: 0.35),  // Muted red
+                Color(red: 0.98, green: 0.55, blue: 0.60)   // Soft pink
             ]
-        case 800:  // Clear - Warm sunny gradient
+        case 800:  // Clear - Bright red to orange-red
             return [
-                Color(red: 1.0, green: 0.84, blue: 0.0),    // Golden yellow
-                Color(red: 1.0, green: 0.95, blue: 0.61)    // Light yellow
+                Color(red: 1.0, green: 0.25, blue: 0.25),   // Bright red
+                Color(red: 1.0, green: 0.45, blue: 0.35)    // Red-orange
             ]
-        case 801:  // Few clouds - Warm with hint of blue
+        case 801:  // Few clouds - Warm red gradient
             return [
-                Color(red: 1.0, green: 0.91, blue: 0.51),   // Soft yellow
-                Color(red: 0.85, green: 0.92, blue: 0.98)   // Light blue
+                Color(red: 0.95, green: 0.30, blue: 0.30),  // Warm red
+                Color(red: 1.0, green: 0.55, blue: 0.50)    // Coral
             ]
-        case 802:  // Scattered clouds - Balanced
+        case 802:  // Scattered clouds - Medium red
             return [
-                Color(red: 0.85, green: 0.92, blue: 0.98),  // Light blue
-                Color(red: 0.92, green: 0.93, blue: 0.95)   // Light gray
+                Color(red: 0.90, green: 0.25, blue: 0.30),  // Medium red
+                Color(red: 0.98, green: 0.50, blue: 0.55)   // Light coral
             ]
-        case 803...804:  // Cloudy - Cool grays
+        case 803...804:  // Cloudy - Deep red to rose
             return [
-                Color(red: 0.73, green: 0.78, blue: 0.82),  // Gray-blue
-                Color(red: 0.88, green: 0.90, blue: 0.92)   // Light gray
+                Color(red: 0.85, green: 0.20, blue: 0.28),  // Deep red
+                Color(red: 0.95, green: 0.45, blue: 0.52)   // Rose
             ]
         default:
             return [
-                Color(red: 0.95, green: 0.95, blue: 0.95),  // Neutral light gray
-                Color(red: 1.0, green: 1.0, blue: 1.0)      // White
+                Color(red: 0.90, green: 0.25, blue: 0.30),  // Default red
+                Color(red: 1.0, green: 0.55, blue: 0.60)    // Light pink
             ]
         }
     }
 
-    // Accent color for temperature text
+    // Accent color for temperature text - Bold red
     var accentColor: Color {
-        switch conditionId {
-        case 200...232:  // Thunderstorm
-            return Color(red: 0.48, green: 0.41, blue: 0.93)
-        case 300...321, 500...531:  // Rain
-            return Color(red: 0.29, green: 0.56, blue: 0.89)
-        case 600...622:  // Snow
-            return Color(red: 0.53, green: 0.81, blue: 0.92)
-        case 701...781:  // Fog
-            return Color(red: 0.62, green: 0.65, blue: 0.68)
-        case 800:  // Clear/Sunny
-            return Color(red: 1.0, green: 0.65, blue: 0.0)
-        case 801:  // Few clouds
-            return Color(red: 1.0, green: 0.75, blue: 0.0)
-        case 802:  // Scattered clouds
-            return Color(red: 0.29, green: 0.56, blue: 0.89)
-        case 803...804:  // Cloudy
-            return Color(red: 0.56, green: 0.60, blue: 0.64)
-        default:
-            return Color.gray
-        }
+        // All weather conditions use vibrant red
+        return Color(red: 0.95, green: 0.15, blue: 0.25)
     }
 }
 
