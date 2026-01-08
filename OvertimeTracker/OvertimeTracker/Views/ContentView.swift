@@ -12,12 +12,12 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            // Royal Mail red gradient background
+            // Clean Apple-style background
             LinearGradient(
                 colors: [
-                    Color(red: 0.88, green: 0.0, blue: 0.0),    // Deep Royal Mail red
-                    Color(red: 0.95, green: 0.20, blue: 0.20),  // Lighter red
-                    Color(red: 1.0, green: 0.30, blue: 0.30)    // Soft red
+                    Color(red: 0.98, green: 0.98, blue: 0.99),  // Very light gray-blue
+                    Color(red: 0.96, green: 0.97, blue: 0.98),  // Subtle gradient
+                    Color(red: 0.95, green: 0.96, blue: 0.97)   // Light gray
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -58,16 +58,25 @@ struct ContentView: View {
             HStack {
                 Image(systemName: "clock.badge.checkmark.fill")
                     .font(.system(size: 28, weight: .bold))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.0, green: 0.48, blue: 1.0),   // Apple blue
+                                Color(red: 0.0, green: 0.6, blue: 1.0)     // Lighter blue
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
 
                 Text("Overtime Tracker")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.black)
             }
 
             Text("Track your postal delivery hours")
                 .font(.system(.subheadline, design: .rounded, weight: .medium))
-                .foregroundStyle(Color.white.opacity(0.9))
+                .foregroundStyle(Color.black.opacity(0.6))
         }
         .padding(.horizontal, 20)
     }
@@ -77,24 +86,24 @@ struct ContentView: View {
             Button(action: { viewModel.goToPreviousWeek() }) {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color(red: 0.0, green: 0.48, blue: 1.0))
                     .frame(width: 40, height: 40)
                     .background(
                         Circle()
-                            .fill(Color.white.opacity(0.2))
-                            .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .fill(Color.white)
+                            .shadow(color: Color.black.opacity(0.08), radius: 10, x: 0, y: 4)
                     )
             }
 
             VStack(spacing: 4) {
                 Text(viewModel.currentWeek.weekRange)
                     .font(.system(.body, design: .rounded, weight: .semibold))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.black)
 
                 Button(action: { viewModel.goToCurrentWeek() }) {
                     Text("Current Week")
                         .font(.system(.caption, design: .rounded, weight: .medium))
-                        .foregroundStyle(Color.white.opacity(0.9))
+                        .foregroundStyle(Color(red: 0.0, green: 0.48, blue: 1.0))
                 }
             }
             .frame(maxWidth: .infinity)
@@ -102,12 +111,12 @@ struct ContentView: View {
             Button(action: { viewModel.goToNextWeek() }) {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color(red: 0.0, green: 0.48, blue: 1.0))
                     .frame(width: 40, height: 40)
                     .background(
                         Circle()
-                            .fill(Color.white.opacity(0.2))
-                            .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                            .fill(Color.white)
+                            .shadow(color: Color.black.opacity(0.08), radius: 10, x: 0, y: 4)
                     )
             }
         }
@@ -123,8 +132,8 @@ struct ContentView: View {
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0.85, green: 0.0, blue: 0.0),
-                                    Color(red: 1.0, green: 0.25, blue: 0.25)
+                                    Color(red: 0.0, green: 0.48, blue: 1.0),
+                                    Color(red: 0.0, green: 0.6, blue: 1.0)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -134,7 +143,7 @@ struct ContentView: View {
 
                     Text("Monday - Sunday")
                         .font(.system(.caption2, design: .rounded, weight: .medium))
-                        .foregroundStyle(Color.black.opacity(0.6))
+                        .foregroundStyle(Color.black.opacity(0.5))
                 }
 
                 Spacer()
@@ -145,14 +154,14 @@ struct ContentView: View {
                         viewModel.currentWeek.weeklyTotalMinutes > 0 ?
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0.85, green: 0.0, blue: 0.0),
-                                    Color(red: 1.0, green: 0.3, blue: 0.3)
+                                    Color(red: 0.0, green: 0.48, blue: 1.0),
+                                    Color(red: 0.0, green: 0.6, blue: 1.0)
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ) :
                             LinearGradient(
-                                colors: [Color.black.opacity(0.4), Color.black.opacity(0.4)],
+                                colors: [Color.black.opacity(0.3), Color.black.opacity(0.3)],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -165,37 +174,23 @@ struct ContentView: View {
                     HStack {
                         Circle()
                             .fill(
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 0.85, green: 0.0, blue: 0.0).opacity(0.5),
-                                        Color(red: 1.0, green: 0.25, blue: 0.25).opacity(0.3)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
+                                Color(red: 0.0, green: 0.48, blue: 1.0).opacity(0.4)
                             )
                             .frame(width: 8, height: 8)
                         Text("Before: \(formatMinutes(viewModel.currentWeek.totalMinutesBefore))")
                             .font(.system(.caption, design: .rounded, weight: .medium))
-                            .foregroundStyle(Color.black.opacity(0.7))
+                            .foregroundStyle(Color.black.opacity(0.6))
                     }
 
                     HStack {
                         Circle()
                             .fill(
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 0.85, green: 0.0, blue: 0.0).opacity(0.7),
-                                        Color(red: 1.0, green: 0.25, blue: 0.25).opacity(0.5)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
+                                Color(red: 0.0, green: 0.48, blue: 1.0).opacity(0.7)
                             )
                             .frame(width: 8, height: 8)
                         Text("After: \(formatMinutes(viewModel.currentWeek.totalMinutesAfter))")
                             .font(.system(.caption, design: .rounded, weight: .medium))
-                            .foregroundStyle(Color.black.opacity(0.7))
+                            .foregroundStyle(Color.black.opacity(0.6))
                     }
                 }
                 .padding(.top, 8)
@@ -205,22 +200,15 @@ struct ContentView: View {
         .background(
             ZStack {
                 RoundedRectangle(cornerRadius: 24)
-                    .fill(.ultraThinMaterial)
+                    .fill(Color.white)
 
                 RoundedRectangle(cornerRadius: 24)
                     .strokeBorder(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.6),
-                                Color.white.opacity(0.2)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1.5
+                        Color.black.opacity(0.06),
+                        lineWidth: 1
                     )
             }
-            .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: 10)
+            .shadow(color: Color.black.opacity(0.08), radius: 16, x: 0, y: 8)
         )
         .padding(.horizontal, 20)
     }

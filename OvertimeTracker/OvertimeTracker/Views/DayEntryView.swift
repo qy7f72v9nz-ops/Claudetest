@@ -36,8 +36,8 @@ struct DayEntryView: View {
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0.85, green: 0.0, blue: 0.0),
-                                    Color(red: 1.0, green: 0.25, blue: 0.25)
+                                    Color(red: 0.0, green: 0.48, blue: 1.0),
+                                    Color(red: 0.0, green: 0.6, blue: 1.0)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -59,7 +59,7 @@ struct DayEntryView: View {
 
                                 Text(weather.temperatureFormatted)
                                     .font(.system(.body, design: .rounded, weight: .bold))
-                                    .foregroundStyle(Color.black)
+                                    .foregroundStyle(Color.black.opacity(0.7))
                             }
                         }
                     }
@@ -74,8 +74,8 @@ struct DayEntryView: View {
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0.85, green: 0.0, blue: 0.0),
-                                    Color(red: 1.0, green: 0.25, blue: 0.25)
+                                    Color(red: 0.0, green: 0.48, blue: 1.0),
+                                    Color(red: 0.0, green: 0.6, blue: 1.0)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -89,14 +89,14 @@ struct DayEntryView: View {
                             entry.totalMinutes > 0 ?
                                 LinearGradient(
                                     colors: [
-                                        Color(red: 0.85, green: 0.0, blue: 0.0),
-                                        Color(red: 1.0, green: 0.3, blue: 0.3)
+                                        Color(red: 0.0, green: 0.48, blue: 1.0),
+                                        Color(red: 0.0, green: 0.6, blue: 1.0)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 ) :
                                 LinearGradient(
-                                    colors: [Color.black.opacity(0.4), Color.black.opacity(0.4)],
+                                    colors: [Color.black.opacity(0.3), Color.black.opacity(0.3)],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
@@ -144,8 +144,8 @@ struct DayEntryView: View {
                                 focusedField == .before ?
                                     LinearGradient(
                                         colors: [
-                                            Color(red: 0.85, green: 0.0, blue: 0.0).opacity(0.6),
-                                            Color(red: 1.0, green: 0.25, blue: 0.25).opacity(0.4)
+                                            Color(red: 0.0, green: 0.48, blue: 1.0),
+                                            Color(red: 0.0, green: 0.6, blue: 1.0)
                                         ],
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
@@ -193,8 +193,8 @@ struct DayEntryView: View {
                                 focusedField == .after ?
                                     LinearGradient(
                                         colors: [
-                                            Color(red: 0.85, green: 0.0, blue: 0.0).opacity(0.6),
-                                            Color(red: 1.0, green: 0.25, blue: 0.25).opacity(0.4)
+                                            Color(red: 0.0, green: 0.48, blue: 1.0),
+                                            Color(red: 0.0, green: 0.6, blue: 1.0)
                                         ],
                                         startPoint: .topLeading,
                                         endPoint: .bottomTrailing
@@ -215,22 +215,15 @@ struct DayEntryView: View {
         .background(
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial)
+                    .fill(Color.white)
 
                 RoundedRectangle(cornerRadius: 20)
                     .strokeBorder(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.6),
-                                Color.white.opacity(0.2)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1.5
+                        Color.black.opacity(0.06),
+                        lineWidth: 1
                     )
             }
-            .shadow(color: Color.black.opacity(0.12), radius: 12, x: 0, y: 6)
+            .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 6)
         )
     }
 
